@@ -1,0 +1,1 @@
+<p>Bienvenido, {{ $user->name }} a styde</p>
