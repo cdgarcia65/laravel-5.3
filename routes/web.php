@@ -21,7 +21,8 @@ DB::listen(function ($query) {
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return View::make('welcome');
 });
 
 Route::get('posts', function () {
