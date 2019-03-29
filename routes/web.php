@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
+DB::listen(function ($query) {
+    Log::info($query->sql);
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -50,11 +54,11 @@ Route::get('/home', 'HomeController@index');
 Route::get('points', function () {
     $users = User::find(1);
 
-    $popular = $users->posts()->where('points', '>', 50)->get();
+    // dd(get_class($users->posts()));
 
-    $others = $users->posts->reject(function ($post) {
-        return $post->points > 50;
-    });
+    $popular = $users->posts->where('points', '>', 50);
+
+    $others = $users->posts->where('points', '<=', 50);
 
     dd($popular, $others);
 });
