@@ -46,3 +46,15 @@ Route::get('welcome', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('points', function () {
+    $users = User::find(1);
+
+    $popular = $users->posts()->where('points', '>', 50)->get();
+
+    $others = $users->posts->reject(function ($post) {
+        return $post->points > 50;
+    });
+
+    dd($popular, $others);
+});

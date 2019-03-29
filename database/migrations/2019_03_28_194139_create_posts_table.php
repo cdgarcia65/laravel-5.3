@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->text('title');
             $table->text('content');
+            $table->integer('points')->default(0);
 
             $table->foreign('user_id')
                 ->references('id')
