@@ -34,4 +34,30 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    /**
+     * Get application admin.
+     */
+    public static function getAdmin()
+    {
+        return static::firstOrCreate([
+            'email' => 'admin@styde.net'
+        ], [
+            'name' => 'Silence ',
+            'password' => bcrypt('secret')
+        ]);
+
+        // $admin = static::where('email', 'admin@styde.net')
+        //     ->first();
+
+        // if ($admin == null) {
+        //     $admin = User::create([
+        //         'name' => 'Admin',
+        //         'email' => 'admin@styde.net',
+        //         'password' => bcrypt('secret')
+        //     ]);
+        // }
+
+        // return $admin;
+    }
 }
