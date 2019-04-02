@@ -16,6 +16,8 @@ class CreateUserProfilesTable extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('featured_post_id')->nullable();
+            $table->string('nickname')->unique()->nullable();
             $table->string('avatar')->nullable();
             $table->mediumText('description')->nullable();
 
