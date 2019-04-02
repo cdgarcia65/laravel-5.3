@@ -36,6 +36,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user profile.
+     */
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    /**
      * Get application admin.
      */
     public static function getAdmin()

@@ -20,6 +20,11 @@ DB::listen(function ($query) {
     Log::info($query->sql);
 });
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('profile', 'ProfileController@edit');
+    Route::put('profile', 'ProfileController@update');
+});
+
 Route::get('admin', function () {
     return User::getAdmin();
 });
