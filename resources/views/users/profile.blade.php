@@ -25,11 +25,13 @@
                             @endif
                         </div>
                         
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <img src="{{ asset('storage/' . $profile->avatar) }}" alt="avatar">
+                        @if ($profile->avatar)
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <img src="{{ url('profile/avatar') }}" alt="avatar">
+                                </div>
                             </div>
-                        </div>
+                        @endif
 
                         <div class="form-group{{ $errors->has('avatar') ? ' has-error' : ''}}">
                             <label for="avatar" class="col-md-4 control-label">Avatar</label>

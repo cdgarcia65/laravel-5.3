@@ -23,6 +23,8 @@ DB::listen(function ($query) {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('profile', 'ProfileController@edit');
     Route::put('profile', 'ProfileController@update');
+
+    Route::get('profile/avatar', 'ProfileController@avatar');
 });
 
 Route::get('admin', function () {

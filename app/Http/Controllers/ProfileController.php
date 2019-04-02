@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ProfileController extends Controller
 {
@@ -28,15 +30,35 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $profile = auth()->user()->profile()->firstOrNew([]);
+        $profile = auth()->user()->profile;
 
         $profile->fill($request->all());
 
         if ($request->hasFile('avatar')) {
-            $profile->avatar = $request->file('avatar')->store('avatars', 'public');
+            $profile->avatar = $request->file('avatar')
+                ->storeAs('avatars/' . auth()->id(), 'avatar.png');
         }
+
         $profile->save();
 
         return back();
+    }
+
+    /**
+     *
+     */
+    public function avatar()
+    {
+        $profile = auth()->user()->profile;
+
+        $headers = [
+            'Content-Length' => File::size($profile->avatarFile),
+            'Content-Type' => File::mimeType($profile->avatarFile)
+        ];
+
+        return response()->download(
+            $profile->avatarFile,
+            null, $headers, ResponseHeaderBag::DISPOSITION_INLINE
+        );
     }
 }
