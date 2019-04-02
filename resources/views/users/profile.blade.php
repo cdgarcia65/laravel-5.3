@@ -39,6 +39,7 @@
                             <div class="col-md-6">
                                 <input type="file" name="avatar" id="avatar">
                             </div>
+                            <br>
 
                             @if ($errors->has('avatar'))
                                 <span class="help-block">

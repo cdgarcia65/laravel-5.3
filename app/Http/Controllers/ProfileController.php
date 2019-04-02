@@ -30,6 +30,11 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
+        $this->validate($request, [
+            'description' => 'min:10',
+            'avatar' => 'image|dimensions:max_width=300,max_height=300'
+        ]);
+
         $profile = auth()->user()->profile;
 
         $profile->fill($request->all());
