@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Post;
 use Illuminate\Mail\Message;
 use App\Mail\Welcome as WelcomeMail;
 use Illuminate\Support\Facades\Mail;
@@ -37,9 +38,9 @@ Route::get('/', function () {
 });
 
 Route::get('posts', function () {
-    $users = User::all();
+    $posts = Post::paginate();
 
-    return view('posts', compact('users'));
+    return view('posts', compact('posts'));
 });
 
 // Route::get('welcome', function () {
