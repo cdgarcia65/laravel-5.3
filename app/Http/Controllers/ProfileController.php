@@ -6,6 +6,7 @@ use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
+use App\Notifications\ProfileUpdated;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ProfileController extends Controller
@@ -45,8 +46,8 @@ class ProfileController extends Controller
                 Rule::dimensions()->maxWidth(300)->maxHeight(300),
             ],
             'featured_post_id' => Rule::exists('posts', 'id')
-                ->where('user_id', $profile->id)
-                ->where('points', '>=', 50)
+                ->where('user_id', auth()->id())
+                // ->where('points', '>=', 50)
         ]);
 
         $profile->fill($request->all());
@@ -57,6 +58,8 @@ class ProfileController extends Controller
         }
 
         $profile->save();
+
+        auth()->user()->notify(new ProfileUpdated($profile));
 
         return back();
     }
