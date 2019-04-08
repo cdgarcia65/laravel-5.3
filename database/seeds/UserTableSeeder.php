@@ -12,6 +12,12 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+        factory(User::class)->create([
+            'name' => 'David García',
+            'email' => 'ccristhiangarcia@gmail.com',
+            'password' => bcrypt('secret')
+        ]);
+
         factory(User::class)->times(10)->create();
     }
 }

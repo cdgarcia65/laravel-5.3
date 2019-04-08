@@ -3,8 +3,11 @@
 use App\User;
 use App\Post;
 use Illuminate\Mail\Message;
+use App\Notifications\Follower;
 use App\Mail\Welcome as WelcomeMail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Notifications\DatabaseNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +29,39 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('profile', 'ProfileController@update');
 
     Route::get('profile/avatar', 'ProfileController@avatar');
+
+    Route::get('notifications', function () {
+        $notifications = auth()->user()->notifications;
+
+        return view('notifications', compact('notifications'));
+    });
+
+    Route::get('notifications/read-all', function () {
+        auth()->user()->notifications->markAsRead();
+
+        return back();
+    });
+
+    Route::get('notifications/{notification}/', function (DatabaseNotification $notification) {
+        abort_unless($notification->notifiable_id == auth()->id()
+            && $notification->type == 'App\User', 404);
+        
+        $notification->markAsRead();
+
+        switch ($notification->type) {
+            case 'App\Notifications\Follower':
+                return redirect('profile/' . $notification->data['follower_id']);
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    });
+
+    Route::get('profile/{user}', function (User $user) {
+        dd($user);
+    });
 });
 
 Route::get('admin', function () {
@@ -41,6 +77,12 @@ Route::get('posts', function () {
     $posts = Post::paginate();
 
     return view('posts', compact('posts'));
+});
+
+Route::get('follow/{follower}/{followed}', function (User $follower, User $followed) {
+    // Create the follower.
+
+    Notification::send($followed, new Follower($follower));
 });
 
 // Route::get('welcome', function () {
