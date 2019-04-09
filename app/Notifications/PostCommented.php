@@ -2,26 +2,26 @@
 
 namespace App\Notifications;
 
-use App\User;
+use App\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class Follower extends Notification
+class PostCommented extends Notification
 {
     use Queueable;
 
-    protected $follower;
+    protected $post;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $follower)
+    public function __construct(Post $post)
     {
-        $this->follower = $follower;
+        $this->post = $post;
     }
 
     /**
@@ -32,7 +32,7 @@ class Follower extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return $notifiable->getNotificationPreferences();
     }
 
     /**
@@ -58,9 +58,9 @@ class Follower extends Notification
     public function toArray($notifiable)
     {
         return [
-            'follower_id' => $this->follower->id,
-            'follower_name' => $this->follower->name,
-            'redirect_url' => url('profile/' . $this->follower->id)
+            'post_id' => $this->post->id,
+            'post_title' => $this->post->title,
+            'redirect_url' => 'posts/' . $this->post->id
         ];
     }
 }

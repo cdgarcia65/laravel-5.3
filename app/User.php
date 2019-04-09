@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\RoutesNotifications;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use RoutesNotifications, HasDatabaseNotifications;
 
     /**
      * The attributes that are mass assignable.
@@ -72,5 +72,10 @@ class User extends Authenticatable
         // }
 
         // return $admin;
+    }
+
+    public function getNotificationPreferences()
+    {
+        return ['mail', 'database'];
     }
 }

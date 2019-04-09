@@ -6,11 +6,11 @@
         <div class="col-md-8 col-md-offset-2">
             <ul class="list-group">
             @foreach ($notifications as $notification) 
-                <li class="list-group-item" @if ($notification->read_at == null) style="font-weight: bold;" @endif>
-                    <a href="{{ url("notifications/$notification->id") }}">
-                        {{ trans('notifications.' . snake_case(class_basename($notification->type), '-'), $notification->data) }}
+                <li class="list-group-item" @if ($notification->is_new) style="font-weight: bold;" @endif>
+                    <a href="{{ $notification->url }}">
+                        {{ $notification->description }}
                     </a>
-                    <br> <em>{{ $notification->created_at->format('d/m/Y H:i:a') }}</em>
+                    <br> <em>{{ $notification->date }}</em>
                 </li>
             @endforeach
             </ul>
