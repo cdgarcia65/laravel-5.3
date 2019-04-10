@@ -43,10 +43,6 @@ Route::group(['middleware' => 'auth'], function () {
         return back();
     });
 
-    Route::get('notifications/{user}', function (User $user) {
-        dd($user);
-    });
-
     Route::get('notifications/{notification}/', function (DatabaseNotification $notification) {
         abort_unless($notification->associatedTo(auth()->user()), 404);
         
@@ -55,9 +51,17 @@ Route::group(['middleware' => 'auth'], function () {
         return redirect($notification->redirect_url);
     });
 
-    Route::get('posts/{post}', function (Post $post) {
-        dd($post);
+    Route::get('notifications/{user}', function (User $user) {
+        dd($user);
     });
+});
+
+Route::get('posts/{post}', function (Post $post) {
+    dd($post);
+});
+
+Route::get('profile/{user}', function (User $user) {
+    dd($user);
 });
 
 Route::get('admin', function () {

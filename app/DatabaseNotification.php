@@ -40,7 +40,7 @@ class DatabaseNotification extends Model
 
     public function associatedTo($notifiable)
     {
-        return $this->notifiable_id == $notifiable->id && $this->type == get_class($notifiable);
+        return $this->notifiable_id == $notifiable->id && $this->notifiable_type == get_class($notifiable);
     }
 
     public function getKeyAttribute()
