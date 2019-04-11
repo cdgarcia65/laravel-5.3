@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\NexmoMessage;
 
 class ProfileUpdated extends Notification
 {
@@ -31,7 +32,19 @@ class ProfileUpdated extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['nexmo'];
+    }
+
+    /**
+     * Get the Nexmo / SMS representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return NexmoMessage
+     */
+    public function toNexmo($notifiable)
+    {
+        return (new NexmoMessage)
+                    ->content("Hi, {$notifiable->name} Has you updated your profile successfully!");
     }
 
     /**

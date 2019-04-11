@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
         return ['mail', 'database'];
     }
+
+    public function routeNotificationForNexmo()
+    {
+        return env('NEXMO_PHONE');
+    }
 }
