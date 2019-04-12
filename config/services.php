@@ -41,4 +41,8 @@ return [
         'sms_from' => env('NEXMO_PHONE'),
     ],
 
+    'slack' => [
+        'webhook_url' => env('SLACK_WEBHOOK')
+    ],
+
 ];

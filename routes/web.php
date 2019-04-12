@@ -2,10 +2,12 @@
 
 use App\User;
 use App\Post;
+use App\SlackTeam;
 use Illuminate\Mail\Message;
 use App\DatabaseNotification;
 use App\Notifications\Follower;
 use App\Notifications\PostCommented;
+use App\Notifications\PostPublished;
 use App\Mail\Welcome as WelcomeMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
@@ -62,6 +64,12 @@ Route::get('posts/{post}', function (Post $post) {
 
 Route::get('profile/{user}', function (User $user) {
     dd($user);
+});
+
+Route::get('posts/publish/{post}', function (Post $post) {
+    // Publish post here...
+
+    (new SlackTeam())->notify(new PostPublished($post));
 });
 
 Route::get('admin', function () {

@@ -18,4 +18,9 @@ class Post extends Model
     {
         return User::take(5)->get();
     }
+
+    public function getUrlAttribute()
+    {
+        return url('posts/' . $this->id);
+    }
 }
